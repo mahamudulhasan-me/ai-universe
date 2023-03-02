@@ -1,12 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI-Universe</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@2.51.3/dist/full.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body>
+  <body class="font-sans">
+    <!-- header section start -->
+    <header class="border-b shadow-lg py-5 mb-10">
+      <h1 class="text-center font-semibold text-3xl text-black">
+        AI-Universe Hub
+      </h1>
+    </header>
+    <!-- main section start  -->
+    <main class="w-4/5 mx-auto">
+      <div class="text-center mb-8">
+        <button
+          class="font-semibold text-lg rounded-md bg-rose-500 px-5 py-2 text-white"
+        >
+          Sort By Date
+        </button>
+      </div>
+      <!-- all ai resources details -->
+      <div class="grid grid-cols-3 gap-4" id="AIContainer"></div>
+      <div>
+        <img src="./img/snipper.gif" alt="" class="mx-auto" id="snipper" />
+
+        <div class="text-center my-8">
+          <button
+            class="font-semibold text-lg rounded-md bg-rose-500 px-5 py-2 text-white"
+          >
+            Sort By Date
+          </button>
+        </div>
+      </div>
+    </main>
     <script src="./js/main.js"></script>
   </body>
 </html>
