@@ -8,19 +8,19 @@ const snipperHandler = (isLoading) => {
 };
 snipperHandler(false);
 
-function loadAllAIUniverses() {
+function loadAllAIUniverses(dataLimit) {
   fetch("https://openapi.programming-hero.com/api/ai/tools")
     .then((response) => response.json())
     .then((data) => {
-      displayAllAIUniverses(data.data.tools);
+      displayAllAIUniverses(data.data.tools, dataLimit);
     });
 }
 
-const displayAllAIUniverses = (AIUniverses) => {
+const displayAllAIUniverses = (AIUniverses, dataLimit) => {
   console.log(AIUniverses);
   snipperHandler(true);
 
-  AIUniverses.slice(0, 6).forEach((AI) => {
+  AIUniverses.slice(0, dataLimit).forEach((AI) => {
     document.getElementById("AIContainer").innerHTML += `
     <div class="border p-5 mb-5 rounded-md">
           <div class="border-b-2">
@@ -28,7 +28,7 @@ const displayAllAIUniverses = (AIUniverses) => {
             <div>
               <h3 class="font-bold text-2xl text-black my-4">Feature</h3>
               <div class="text-slate-600 text-md mb-4" id="feature_container">
-              ${displayFeature()}
+              
               
               </div>
             </div>
@@ -40,18 +40,86 @@ const displayAllAIUniverses = (AIUniverses) => {
                 <img src="./img/calendar.png" alt="" />${AI.published_in}
               </p>
             </div>
-            <button><img src="./img/right-arrow.png" alt="" /></button>
+            <label for="my-modal-5" class="cursor-pointer" onclick="loadSingleAIDetails('${AI.id}')"><img src="./img/right-arrow.png" alt="" /></label>
           </div>
         </div>
     `;
-
-    function displayFeature() {
-      for (let feature of AI.features) {
-        console.log(feature);
-      }
-    }
-    displayFeature();
   });
 };
 
-loadAllAIUniverses();
+function loadSingleAIDetails(id) {
+  fetch(`https://openapi.programming-hero.com/api/ai/tool/${id}`)
+    .then((response) => response.json())
+    .then((data) => DisplayAIDetails(data.data));
+}
+const DisplayAIDetails = (AI) => {
+  console.log(AI);
+  document.querySelector(".modal").innerHTML = `
+  <div class="modal-box w-11/12 max-w-4xl">
+          <label
+            for="my-modal-5"
+            class="btn btn-sm btn-circle absolute right-2 top-2"
+            >✕</label
+          >
+          <div class="grid grid-cols-2 gap-4 justify-between items-center">
+            <div class="border border-rose-500 bg-rose-100 rounded-xl p-5">
+              <h4 class=" font-semibold text-xl text-justify">${
+                AI.description
+              }</h4>
+              <div class="flex justify-between">
+                <p>
+                  $10/month <br />
+                  Basic
+                </p>
+                <p>
+                  $10/month <br />
+                  Basic
+                </p>
+                <p>
+                  $10/month <br />
+                  Basic
+                </p>
+              </div>
+              <div class="flex justify-between">
+                <div>
+                  <h3 class="font-bold text-2xl text-black">Features</h3>
+                  <ul class="list-disc pl-4">
+                    <li>Customizable responses</li>
+                    <li>Multilingual support</li>
+                    <li>Seamless integration</li>
+                  </ul>
+                </div>
+                <div>
+                  <h3 class="font-bold text-2xl text-black">Integrations</h3>
+                  <ul class="list-disc pl-4">
+                    <li>Customizable responses</li>
+                    <li>Multilingual support</li>
+                    <li>Seamless integration</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="p-5 border h-full rounded-xl">
+              <img src="${
+                AI.image_link ? AI.image_link[0] : AI.image_link[1]
+              }" alt="" />
+              <h3>input_output_examples</h3>
+            </div>
+          </div>
+        </div>
+  `;
+};
+// async function loadSingleAIDetails(id) {
+//   console.log(id);
+//   const response = await fetch(
+//     `https://openapi.programming-hero.com/api/ai/tool/${id}`
+//   );
+
+//   const data = response.json();
+//   console.log(data.data);
+// }
+document.getElementById("btn_showAll").addEventListener("click", (e) => {
+  loadAllAIUniverses();
+  e.target.style.display = "none";
+});
+loadAllAIUniverses(6);
