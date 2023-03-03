@@ -8,13 +8,17 @@ const snipperHandler = (isLoading) => {
 };
 snipperHandler(false);
 
-function getFeatures(array) {
-  let data = "";
-  for (let feature of array) {
-    data += `<p>${feature}</p>`;
+// get single feature form feature array
+function getFeatures(featuresArray) {
+  let featureContainer = "";
+  let featureNum = 1;
+  for (let feature of featuresArray) {
+    featureContainer += `<p>${featureNum++}. ${feature}</p>`;
   }
-  return data;
+  return featureContainer;
 }
+
+// this function load all ai universe data from the database with data limit
 function loadAllAIUniverses(dataLimit) {
   fetch("https://openapi.programming-hero.com/api/ai/tools")
     .then((response) => response.json())
@@ -22,15 +26,13 @@ function loadAllAIUniverses(dataLimit) {
       displayAllAIUniverses(data.data.tools, dataLimit);
     });
 }
-
 const displayAllAIUniverses = (AIUniverses, dataLimit) => {
   console.log(AIUniverses);
 
+  //   when fetch data the spinner will be hidden
   snipperHandler(true);
 
   AIUniverses.slice(0, dataLimit).forEach((AI) => {
-    // const feat = Ai.features
-
     document.getElementById("AIContainer").innerHTML += `
     <div class="border p-5 mb-5 rounded-xl hover:bg-rose-50 transition-all hover:shadow-md">
           <div class="border-b-2">
@@ -39,7 +41,6 @@ const displayAllAIUniverses = (AIUniverses, dataLimit) => {
               <h3 class="font-bold text-2xl text-black my-4">Feature</h3>
               <div class="text-slate-600 text-md mb-4" id="feature_container">
               ${getFeatures(AI.features)}
-              
               </div>
             </div>
           </div>
@@ -60,23 +61,16 @@ const displayAllAIUniverses = (AIUniverses, dataLimit) => {
     `;
   });
 };
-// const getFeatures = AI.features.map((feature) => {
-//     return feature;
-//   });
-//   for (let feature of getFeatures) {
-//     console.log(feature);
-//     document.getElementById(
-//       "feature_container"
-//     ).innerHTML += `<li>${feature}</li>`;
-//   }
-//   console.log(getFeatures);
-
-function loadSingleAIDetails(id) {
-  fetch(`https://openapi.programming-hero.com/api/ai/tool/${id}`)
-    .then((response) => response.json())
-    .then((data) => DisplayAIDetails(data.data));
+// this function get single ai id by on click and load data
+async function loadSingleAIDetails(id) {
+  const response = await fetch(
+    `https://openapi.programming-hero.com/api/ai/tool/${id}`
+  );
+  const data = await response.json();
+  displayAIDetails(data.data);
 }
-const DisplayAIDetails = (AI) => {
+// display single ai details
+const displayAIDetails = (AI) => {
   document.querySelector(".modal").innerHTML = `
   <div class="modal-box w-11/12 max-w-4xl">
           <label
@@ -169,19 +163,14 @@ const DisplayAIDetails = (AI) => {
         </div>
   `;
 };
-// async function loadSingleAIDetails(id) {
-//   console.log(id);
-//   const response = await fetch(
-//     `https://openapi.programming-hero.com/api/ai/tool/${id}`
-//   );
 
-//   const data = response.json();
-//   console.log(data.data);
-// }
+// show all button integrations
 document.getElementById("btn_showAll").addEventListener("click", (e) => {
   document.getElementById("AIContainer").innerHTML = "";
   snipperHandler(false);
   loadAllAIUniverses();
   e.target.style.display = "none";
 });
+
+// load all ai universes with default dataLimit
 loadAllAIUniverses(6);
