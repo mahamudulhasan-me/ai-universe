@@ -17,38 +17,27 @@ function getFeatures(featuresArray) {
   }
   return featureContainer;
 }
-
+// var isSorting = true;
 // this function load all ai universe data from the database with data limit
 async function loadAllAIUniverses(isSorting, dataLimit) {
   const response = await fetch(
     "https://openapi.programming-hero.com/api/ai/tools"
   );
   const data = await response.json();
-  if (isSorting === true) {
-    const sortingData = data.data.tools.sort((a, b) => {
-      const dateA = new Date(a.published_in.split("/").reverse().join("-"));
-      const dateB = new Date(b.published_in.split("/").reverse().join("-"));
-      return dateA - dateB;
-    });
-    displayAllAIUniverses(sortingData, dataLimit);
-  } else {
-    displayAllAIUniverses(data.data.tools, dataLimit);
+  function sortingByDate(isSorting) {
+    if (isSorting === true) {
+      const sortingData = data.data.tools.sort((a, b) => {
+        const dateA = new Date(a.published_in.split("/").reverse().join("-"));
+        const dateB = new Date(b.published_in.split("/").reverse().join("-"));
+        return dateA - dateB;
+      });
+      displayAllAIUniverses(sortingData, dataLimit);
+    } else {
+      displayAllAIUniverses(data.data.tools, dataLimit);
+    }
   }
+  sortingByDate(isSorting);
 }
-
-document.getElementById("btn_sorting").addEventListener("click", () => {
-  document.getElementById("AIContainer").innerHTML = "";
-  snipperHandler(false);
-  loadAllAIUniverses(true, 6);
-  document.getElementById("btn_showAll").addEventListener("click", (e) => {
-    document.getElementById("AIContainer").innerHTML = "";
-    snipperHandler(false);
-    loadAllAIUniverses(true);
-    e.target.style.display = "none";
-  });
-
-  e.target.style.display = "none";
-});
 
 const displayAllAIUniverses = (AIUniverses, dataLimit) => {
   //   when fetch data the spinner will be hidden
@@ -219,6 +208,23 @@ document.getElementById("btn_showAll").addEventListener("click", (e) => {
   snipperHandler(false);
   loadAllAIUniverses();
   e.target.style.display = "none";
+});
+let clicked = true;
+
+document.getElementById("btn_sorting").addEventListener("click", (e) => {
+  if (clicked) {
+    document.getElementById("AIContainer").innerHTML = "";
+    snipperHandler(false);
+    loadAllAIUniverses(true);
+    document.getElementById("btn_showAll").style.display = "none";
+    clicked = false;
+  } else {
+    clicked = true;
+    document.getElementById("AIContainer").innerHTML = "";
+    snipperHandler(false);
+    loadAllAIUniverses(false);
+    document.getElementById("btn_showAll").style.display = "none";
+  }
 });
 
 // load all ai universes with default dataLimit
