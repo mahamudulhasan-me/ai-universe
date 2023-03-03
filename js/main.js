@@ -17,18 +17,6 @@ function getFeatures(featuresArray) {
   }
   return featureContainer;
 }
-// get card inner single feature form feature array
-function getInnerFeatures(featuresArray) {
-  if (featuresArray) {
-    let featureContainer = "";
-    for (let feature of featuresArray) {
-      featureContainer += `<li>${feature}</li>`;
-    }
-    return featureContainer;
-  } else {
-    return "No data Found";
-  }
-}
 
 // this function load all ai universe data from the database with data limit
 function loadAllAIUniverses(dataLimit) {
@@ -73,6 +61,7 @@ const displayAllAIUniverses = (AIUniverses, dataLimit) => {
     `;
   });
 };
+
 // this function get single ai id by on click and load data
 async function loadSingleAIDetails(id) {
   const response = await fetch(
@@ -80,6 +69,26 @@ async function loadSingleAIDetails(id) {
   );
   const data = await response.json();
   displayAIDetails(data.data);
+}
+// get single integration form integration array
+function getIntegration(integrationArray) {
+  if (integrationArray) {
+    let integrationContainer = "";
+    for (let integration of integrationArray) {
+      integrationContainer += `<li>${integration}</li>`;
+    }
+    return integrationContainer;
+  } else {
+    return "No data Found";
+  }
+}
+// get single feature form  features object
+function getInnerFeatures(featuresObj) {
+  let featureContainer = "";
+  for (let feature in featuresObj) {
+    featureContainer += `<li>${featuresObj[feature].feature_name}</li>`;
+  }
+  return featureContainer;
 }
 // display single ai details
 const displayAIDetails = (AI) => {
@@ -127,15 +136,13 @@ const displayAIDetails = (AI) => {
                 <div>
                   <h3 class="font-bold text-2xl mb-3 text-black">Features</h3>
                   <ul class="list-disc pl-7">
-                    <li>${AI.features["1"].feature_name}</li>
-                    <li>${AI.features["2"].feature_name}</li>
-                    <li>${AI.features["3"].feature_name}</li>
+                    ${getInnerFeatures(AI.features)}
                   </ul>
                 </div>
                 <div>
                   <h3 class="font-bold text-2xl mb-3 text-black">Integrations</h3>
                   <ul class="list-disc pl-7">
-                  ${getInnerFeatures(AI.integrations)}
+                  ${getIntegration(AI.integrations)}
                   </ul>
                 </div>
               </div>
