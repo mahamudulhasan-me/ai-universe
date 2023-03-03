@@ -8,7 +8,7 @@ const snipperHandler = (isLoading) => {
 };
 snipperHandler(false);
 
-// get single feature form feature array
+// get card front single feature form feature array
 function getFeatures(featuresArray) {
   let featureContainer = "";
   let featureNum = 1;
@@ -16,6 +16,18 @@ function getFeatures(featuresArray) {
     featureContainer += `<p>${featureNum++}. ${feature}</p>`;
   }
   return featureContainer;
+}
+// get card inner single feature form feature array
+function getInnerFeatures(featuresArray) {
+  if (featuresArray) {
+    let featureContainer = "";
+    for (let feature of featuresArray) {
+      featureContainer += `<li>${feature}</li>`;
+    }
+    return featureContainer;
+  } else {
+    return "No data Found";
+  }
 }
 
 // this function load all ai universe data from the database with data limit
@@ -84,7 +96,7 @@ const displayAIDetails = (AI) => {
                 AI.description
               }</h4>
               <div class="grid grid-cols-3 gap-3 justify-between text-center  font-semibold my-4">
-                <p class="text-green-500  bg-white p-5 rounded-lg flex justify-center items-center">
+                <p class="text-green-500  bg-white  py-3 rounded-lg flex justify-center items-center">
                   ${
                     AI.pricing[0].price === "0"
                       ? "Free of Cost/"
@@ -92,7 +104,7 @@ const displayAIDetails = (AI) => {
                   } <br />
                   ${AI.pricing[0].plan}
                 </p>
-                <p class="text-orange-500  bg-white p-5 rounded-lg flex items-center justify-center">
+                <p class="text-orange-500  bg-white py-3  rounded-lg flex items-center justify-center">
                 ${
                   AI.pricing[1].price === "0"
                     ? "Free of Cost/"
@@ -100,7 +112,7 @@ const displayAIDetails = (AI) => {
                 } <br />
                 ${AI.pricing[1].plan}
                 </p>
-                <p class="text-rose-500  bg-white p-5 rounded-lg flex items-center justify-center">
+                <p class="text-rose-500  bg-white py-3 rounded-lg flex items-center justify-center">
                 ${
                   AI.pricing[2].price === "0"
                     ? "Free of Cost/"
@@ -123,9 +135,7 @@ const displayAIDetails = (AI) => {
                 <div>
                   <h3 class="font-bold text-2xl mb-3 text-black">Integrations</h3>
                   <ul class="list-disc pl-7">
-                    <li>${AI.integrations[0]}</li>
-                    <li>Multilingual support</li>
-                    <li>Seamless integration</li>
+                  ${getInnerFeatures(AI.integrations)}
                   </ul>
                 </div>
               </div>
