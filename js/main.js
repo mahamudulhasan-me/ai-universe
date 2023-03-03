@@ -1,3 +1,15 @@
+/*
+    Project Name = AI Universe
+    Author Name = Mahamudul Hasan
+    Date Created = 2023-03-03
+    ---------------------------
+    Description = In this project, various types of AI data have been loaded
+                     through API and clicking on details will show the details 
+                     of the clicked AI Item.
+
+ */
+
+// snipper, if data loaded snipper will be hide
 const snipperHandler = (isLoading) => {
   const snipper = document.getElementById("snipper");
   if (isLoading) {
@@ -6,6 +18,7 @@ const snipperHandler = (isLoading) => {
     snipper.classList.remove("hidden");
   }
 };
+// byDefault spinner showing
 snipperHandler(false);
 
 // get card front single feature form feature array
@@ -17,7 +30,7 @@ function getFeatures(featuresArray) {
   }
   return featureContainer;
 }
-// var isSorting = true;
+
 // this function load all ai universe data from the database with data limit
 async function loadAllAIUniverses(isSorting, dataLimit) {
   const response = await fetch(
@@ -38,7 +51,7 @@ async function loadAllAIUniverses(isSorting, dataLimit) {
   }
   sortingByDate(isSorting);
 }
-
+// display all ai universe data from the database with data limit
 const displayAllAIUniverses = (AIUniverses, dataLimit) => {
   //   when fetch data the spinner will be hidden
   snipperHandler(true);
@@ -209,8 +222,9 @@ document.getElementById("btn_showAll").addEventListener("click", (e) => {
   loadAllAIUniverses();
   e.target.style.display = "none";
 });
-let clicked = true;
 
+// sorting toggle operation
+let clicked = true;
 document.getElementById("btn_sorting").addEventListener("click", (e) => {
   if (clicked) {
     document.getElementById("AIContainer").innerHTML = "";
