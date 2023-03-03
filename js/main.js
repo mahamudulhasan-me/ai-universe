@@ -23,12 +23,19 @@ function loadAllAIUniverses(dataLimit) {
   fetch("https://openapi.programming-hero.com/api/ai/tools")
     .then((response) => response.json())
     .then((data) => {
-      displayAllAIUniverses(data.data.tools, dataLimit);
+      sortingByDate(data.data.tools, dataLimit);
     });
 }
-const displayAllAIUniverses = (AIUniverses, dataLimit) => {
-  console.log(AIUniverses);
 
+function sortingByDate(AIData, dataLimit) {
+  const sortingData = AIData.sort((a, b) => {
+    const dateA = new Date(a.published_in.split("/").reverse().join("-"));
+    const dateB = new Date(b.published_in.split("/").reverse().join("-"));
+    return dateA - dateB;
+  });
+  displayAllAIUniverses(sortingData, dataLimit);
+}
+const displayAllAIUniverses = (AIUniverses, dataLimit) => {
   //   when fetch data the spinner will be hidden
   snipperHandler(true);
 
