@@ -107,29 +107,35 @@ const displayAIDetails = (AI) => {
               <div class="grid grid-cols-3 gap-3 justify-between text-center  font-semibold my-4">
                 <p class="text-green-500  bg-white  py-3 rounded-lg flex justify-center items-center">
                   ${
-                    AI.pricing[0].price === "0"
-                      ? "Free of Cost/"
-                      : AI.pricing[0].price
+                    AI.pricing
+                      ? AI.pricing[0].price === "0"
+                        ? "Free of Cost/"
+                        : AI.pricing[0].price
+                      : "Free of Cost/"
                   } <br />
-                  ${AI.pricing[0].plan}
+                  ${AI.pricing ? AI.pricing[0].plan : "Basic"}
                 </p>
                 <p class="text-orange-500  bg-white py-3  rounded-lg flex items-center justify-center">
                 ${
-                  AI.pricing[1].price === "0"
-                    ? "Free of Cost/"
-                    : AI.pricing[1].price
+                  AI.pricing
+                    ? AI.pricing[1].price === "0"
+                      ? "Free of Cost/"
+                      : AI.pricing[1].price
+                    : "Free of Cost/"
                 } <br />
-                ${AI.pricing[1].plan}
+                ${AI.pricing ? AI.pricing[1].plan : "Pro"}
                 </p>
                 <p class="text-rose-500  bg-white py-3 rounded-lg flex items-center justify-center">
                 ${
-                  AI.pricing[2].price === "0"
-                    ? "Free of Cost/"
-                    : AI.pricing[2].price === "Contact us for pricing"
-                    ? "Contact us/"
-                    : AI.pricing[2].price
+                  AI.pricing
+                    ? AI.pricing[2].price === "0"
+                      ? "Free of Cost/"
+                      : AI.pricing[2].price === "Contact us for pricing"
+                      ? "Contact us/"
+                      : AI.pricing[2].price
+                    : "Free of Cost/"
                 } <br />
-                ${AI.pricing[2].plan}
+                ${AI.pricing ? AI.pricing[2].plan : "Enterprise"}
                 </p>
               </div>
               <div class="flex justify-between text-md text-slate-700">
@@ -165,13 +171,17 @@ const displayAIDetails = (AI) => {
               </div>
               <div class="text-center">
               <h3 class="font-bold text-2xl my-3 text-black">${
-                AI.input_output_examples[0]
-                  ? AI.input_output_examples[0].input
+                AI.input_output_examples
+                  ? AI.input_output_examples[0]
+                    ? AI.input_output_examples[0].input
+                    : "Can you give any example?"
                   : "Can you give any example?"
               }</h3>
               <p>${
-                AI.input_output_examples[0]
-                  ? AI.input_output_examples[0].output
+                AI.input_output_examples
+                  ? AI.input_output_examples[0]
+                    ? AI.input_output_examples[0].output
+                    : "No! Not Yet! Take a break!!!"
                   : "No! Not Yet! Take a break!!!"
               }</p>
               </div>
