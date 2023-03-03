@@ -22,9 +22,9 @@ const displayAllAIUniverses = (AIUniverses, dataLimit) => {
 
   AIUniverses.slice(0, dataLimit).forEach((AI) => {
     document.getElementById("AIContainer").innerHTML += `
-    <div class="border p-5 mb-5 rounded-md">
+    <div class="border p-5 mb-5 rounded-xl hover:bg-rose-50 transition-all hover:shadow-md">
           <div class="border-b-2">
-            <img src="${AI.image}" alt="" class=" h-[200px] rounded-md" />
+            <img src="${AI.image}" alt="" class=" h-[200px] rounded-xl" />
             <div>
               <h3 class="font-bold text-2xl text-black my-4">Feature</h3>
               <div class="text-slate-600 text-md mb-4" id="feature_container">
@@ -33,14 +33,16 @@ const displayAllAIUniverses = (AIUniverses, dataLimit) => {
               </div>
             </div>
           </div>
-          <div class="flex justify-between items-center my-4">
+          <div class="flex justify-between items-center my-3">
             <div>
               <h3 class="font-bold text-2xl text-black">${AI.name}</h3>
               <p class="flex text-slate-600 font-semibold mt-2 gap-2">
                 <img src="./img/calendar.png" alt="" />${AI.published_in}
               </p>
             </div>
-            <label for="my-modal-5" class="cursor-pointer" onclick="loadSingleAIDetails('${AI.id}')"><img src="./img/right-arrow.png" alt="" /></label>
+            <label for="my-modal-5" 
+            class="cursor-pointer bg-rose-200 w-12 h-12 rounded-full flex items-center justify-center" onclick="loadSingleAIDetails('${AI.id}')">
+            <img src="./img/right-arrow.png" alt="" class="w-8" /></label>
           </div>
         </div>
     `;
@@ -62,7 +64,7 @@ const DisplayAIDetails = (AI) => {
             >✕</label
           >
           <div class="grid grid-cols-2 gap-4 justify-between items-center">
-            <div class="border border-rose-500 bg-rose-100 rounded-xl p-5">
+            <div class="border border-rose-500 bg-rose-50 rounded-xl p-5">
               <h4 class=" font-semibold text-xl text-justify">${
                 AI.description
               }</h4>
@@ -119,6 +121,8 @@ const DisplayAIDetails = (AI) => {
 //   console.log(data.data);
 // }
 document.getElementById("btn_showAll").addEventListener("click", (e) => {
+  document.getElementById("AIContainer").innerHTML = "";
+  snipperHandler(false);
   loadAllAIUniverses();
   e.target.style.display = "none";
 });
