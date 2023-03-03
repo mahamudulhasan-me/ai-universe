@@ -110,7 +110,7 @@ const displayAIDetails = (AI) => {
             class="btn btn-sm btn-circle absolute right-2 top-2"
             >✕</label
           >
-          <div class="grid grid-cols-12 gap-4 justify-between items-center">
+          <div class="md:grid md:grid-cols-12 gap-4 justify-between items-center">
             <div class="border border-rose-500 bg-rose-50 rounded-xl p-5 h-full col-span-7">
               <h4 class=" font-semibold text-xl text-justify">${
                 AI.description
@@ -170,7 +170,7 @@ const displayAIDetails = (AI) => {
                 ${
                   AI.accuracy.score
                     ? `<div class="absolute bg-rose-600 text-sm text-white font-semibold px-2
-                     w-auto text-center rounded-md top-14 right-14">
+                     w-auto text-center rounded-md md:top-14 md:right-14 bottom-18 right-12">
                       ${AI.accuracy.score * 100}% Accuracy
                     </div>`
                     : ""
