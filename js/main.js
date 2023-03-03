@@ -19,22 +19,37 @@ function getFeatures(featuresArray) {
 }
 
 // this function load all ai universe data from the database with data limit
-function loadAllAIUniverses(dataLimit) {
-  fetch("https://openapi.programming-hero.com/api/ai/tools")
-    .then((response) => response.json())
-    .then((data) => {
-      sortingByDate(data.data.tools, dataLimit);
+async function loadAllAIUniverses(isSorting, dataLimit) {
+  const response = await fetch(
+    "https://openapi.programming-hero.com/api/ai/tools"
+  );
+  const data = await response.json();
+  if (isSorting === true) {
+    const sortingData = data.data.tools.sort((a, b) => {
+      const dateA = new Date(a.published_in.split("/").reverse().join("-"));
+      const dateB = new Date(b.published_in.split("/").reverse().join("-"));
+      return dateA - dateB;
     });
+    displayAllAIUniverses(sortingData, dataLimit);
+  } else {
+    displayAllAIUniverses(data.data.tools, dataLimit);
+  }
 }
 
-function sortingByDate(AIData, dataLimit) {
-  const sortingData = AIData.sort((a, b) => {
-    const dateA = new Date(a.published_in.split("/").reverse().join("-"));
-    const dateB = new Date(b.published_in.split("/").reverse().join("-"));
-    return dateA - dateB;
+document.getElementById("btn_sorting").addEventListener("click", () => {
+  document.getElementById("AIContainer").innerHTML = "";
+  snipperHandler(false);
+  loadAllAIUniverses(true, 6);
+  document.getElementById("btn_showAll").addEventListener("click", (e) => {
+    document.getElementById("AIContainer").innerHTML = "";
+    snipperHandler(false);
+    loadAllAIUniverses(true);
+    e.target.style.display = "none";
   });
-  displayAllAIUniverses(sortingData, dataLimit);
-}
+
+  e.target.style.display = "none";
+});
+
 const displayAllAIUniverses = (AIUniverses, dataLimit) => {
   //   when fetch data the spinner will be hidden
   snipperHandler(true);
@@ -207,4 +222,4 @@ document.getElementById("btn_showAll").addEventListener("click", (e) => {
 });
 
 // load all ai universes with default dataLimit
-loadAllAIUniverses(6);
+loadAllAIUniverses(false, 6);
