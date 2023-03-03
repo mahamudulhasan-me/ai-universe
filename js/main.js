@@ -60,7 +60,9 @@ const displayAllAIUniverses = (AIUniverses, dataLimit) => {
     document.getElementById("AIContainer").innerHTML += `
     <div class="border p-5 mb-5 rounded-xl hover:bg-rose-50 transition-all hover:shadow-md">
           <div class="border-b-2">
-            <img src="${AI.image}" alt="" class=" h-[200px] rounded-xl" />
+            <img src="${
+              AI.image
+            }" alt="" class=" h-[200px] rounded-x mx-auto" />
             <div>
               <h3 class="font-bold text-2xl text-black my-4">Feature</h3>
               <div class="text-slate-600 text-md mb-4" id="feature_container">
