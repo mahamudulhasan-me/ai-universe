@@ -131,7 +131,7 @@ const displayAIDetails = (AI) => {
               <h4 class=" font-semibold text-xl text-justify">${
                 AI.description
               }</h4>
-              <div class="grid grid-cols-3 gap-3 justify-between text-center  font-semibold my-4">
+              <div class="grid md:grid-cols-3 grid-cols-2 gap-3 justify-between text-center  font-semibold my-4">
                 <p class="text-green-500  bg-white  py-3 rounded-lg flex justify-center items-center">
                   ${
                     AI.pricing
@@ -274,7 +274,7 @@ document.getElementById("btn_sorting").addEventListener("click", (e) => {
   isSorting = false;
   // e.target.disabled = true;
   e.target.style.display = "none";
-  document.getElementById("sorted").style.display = "block";
+  document.getElementById("sorted").classList.remove("hidden");
 });
 
 // load all ai universes with default dataLimit
