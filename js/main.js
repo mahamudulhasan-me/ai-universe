@@ -224,7 +224,6 @@ const displayAIDetails = (AI) => {
         </div>
   `;
 };
-
 let isSorting = true;
 let sixDataLimit = true;
 function refreshing() {
