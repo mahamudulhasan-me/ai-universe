@@ -105,7 +105,7 @@ function getIntegration(integrationArray) {
     }
     return integrationContainer;
   } else {
-    return "No data Found";
+    return `<p class="font-semibold text-rose-600">No data Found</p>`;
   }
 }
 // get single feature form  features object
@@ -135,17 +135,25 @@ const displayAIDetails = (AI) => {
                 <p class="text-green-500  bg-white  py-3 rounded-lg flex justify-center items-center">
                   ${
                     AI.pricing
-                      ? AI.pricing[0].price === "0" || "No cost"
+                      ? AI.pricing[0].price === "0" ||
+                        AI.pricing[0].price === "No cost"
                         ? "Free of Cost/"
                         : AI.pricing[0].price
                       : "Free of Cost/"
                   } <br />
-                  ${AI.pricing ? AI.pricing[0].plan : "Basic"}
+                  ${
+                    AI.pricing
+                      ? AI.pricing[0].plan === "Free"
+                        ? "Basic"
+                        : AI.pricing[0].plan
+                      : "Basic"
+                  }
                 </p>
                 <p class="text-orange-500  bg-white py-3  rounded-lg flex items-center justify-center">
                 ${
                   AI.pricing
-                    ? AI.pricing[1].price === "0" || "No cost"
+                    ? AI.pricing[1].price === "0" ||
+                      AI.pricing[1].price === "No cost"
                       ? "Free of Cost/"
                       : AI.pricing[1].price
                     : "Free of Cost/"
@@ -211,7 +219,7 @@ const displayAIDetails = (AI) => {
                     : "Can you give any example?"
                   : "Can you give any example?"
               }</h3>
-              <p>${
+              <p class="text-slate-700">${
                 AI.input_output_examples
                   ? AI.input_output_examples[0]
                     ? AI.input_output_examples[0].output
