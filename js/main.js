@@ -118,6 +118,7 @@ function getInnerFeatures(featuresObj) {
 }
 // display single ai details
 const displayAIDetails = (AI) => {
+  console.log(AI);
   document.querySelector(".modal").innerHTML = `
   <div class="modal-box w-11/12 max-w-4xl">
           <label
@@ -134,7 +135,7 @@ const displayAIDetails = (AI) => {
                 <p class="text-green-500  bg-white  py-3 rounded-lg flex justify-center items-center">
                   ${
                     AI.pricing
-                      ? AI.pricing[0].price === "0"
+                      ? AI.pricing[0].price === "0" || "No cost"
                         ? "Free of Cost/"
                         : AI.pricing[0].price
                       : "Free of Cost/"
@@ -144,7 +145,7 @@ const displayAIDetails = (AI) => {
                 <p class="text-orange-500  bg-white py-3  rounded-lg flex items-center justify-center">
                 ${
                   AI.pricing
-                    ? AI.pricing[1].price === "0"
+                    ? AI.pricing[1].price === "0" || "No cost"
                       ? "Free of Cost/"
                       : AI.pricing[1].price
                     : "Free of Cost/"
@@ -156,12 +157,19 @@ const displayAIDetails = (AI) => {
                   AI.pricing
                     ? AI.pricing[2].price === "0"
                       ? "Free of Cost/"
-                      : AI.pricing[2].price === "Contact us for pricing"
+                      : AI.pricing[2].price === "Contact us for pricing" ||
+                        "Contact us"
                       ? "Contact us/"
                       : AI.pricing[2].price
                     : "Free of Cost/"
                 } <br />
-                ${AI.pricing ? AI.pricing[2].plan : "Enterprise"}
+                ${
+                  AI.pricing
+                    ? AI.pricing[2].plan === "Microsoft Advertising"
+                      ? "Enterprise"
+                      : AI.pricing[2].plan
+                    : "Enterprise"
+                }
                 </p>
               </div>
               <div class="flex justify-between text-md text-slate-700">
@@ -217,30 +225,56 @@ const displayAIDetails = (AI) => {
   `;
 };
 
-// show all button integrations
-document.getElementById("btn_showAll").addEventListener("click", (e) => {
+let isSorting = true;
+let sixDataLimit = true;
+function refreshing() {
   document.getElementById("AIContainer").innerHTML = "";
   snipperHandler(false);
-  loadAllAIUniverses();
-  e.target.style.display = "none";
+}
+// show all button integrations
+document.getElementById("btn_showAll").addEventListener("click", (e) => {
+  if (sixDataLimit) {
+    if (!isSorting) {
+      refreshing();
+      loadAllAIUniverses(true);
+      e.target.style.display = "none";
+    } else {
+      refreshing();
+      loadAllAIUniverses(false);
+      e.target.style.display = "none";
+    }
+  } else {
+    refreshing();
+    loadAllAIUniverses(true, null);
+    e.target.style.display = "none";
+  }
+  sixDataLimit = false;
 });
 
 // sorting toggle operation
-let clicked = true;
+
 document.getElementById("btn_sorting").addEventListener("click", (e) => {
-  if (clicked) {
-    document.getElementById("AIContainer").innerHTML = "";
-    snipperHandler(false);
-    loadAllAIUniverses(true);
-    document.getElementById("btn_showAll").style.display = "none";
-    clicked = false;
+  if (isSorting) {
+    if (!sixDataLimit) {
+      refreshing();
+      loadAllAIUniverses(true);
+    } else {
+      refreshing();
+      loadAllAIUniverses(true, 6);
+    }
   } else {
-    clicked = true;
-    document.getElementById("AIContainer").innerHTML = "";
-    snipperHandler(false);
-    loadAllAIUniverses(false);
-    document.getElementById("btn_showAll").style.display = "none";
+    if (!sixDataLimit) {
+      refreshing();
+      loadAllAIUniverses(true);
+    } else {
+      refreshing();
+      loadAllAIUniverses(true, null);
+    }
   }
+  isSorting = false;
+  // e.target.disabled = true;
+  e.target.style.display = "none";
+  document.getElementById("sorted").style.display = "block";
 });
 
 // load all ai universes with default dataLimit
